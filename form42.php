@@ -7,6 +7,7 @@ $asignaturas = array("matematicas", "lengua", "historia", "tecnologia");
 /* Nuestro formulario va a constar de 3 desplegables 'select' (uno para    */
 /* los datos del alumno, otro para la asignatura y otro para la nota) y    */
 /* de dos botones (guardar calificaciones en base de datos y generar pdf). */
+/* El formulario en sí es una tabla html con 3 celdas (columnas).          */
 
 echo "<html>";
 echo "<head>";
@@ -14,8 +15,16 @@ echo "<title>Formulario Ejercicio 42</title>";
 echo "</head>";
 echo "<body>";
 echo "<p>";
-echo "<form name='formulario' method='POST' action='ejercicio42b.php'>";
-echo "Alumno: ";
+echo "<form name='formulario' method='POST' action='script42.php'>";
+echo "<table align='center' border='1' bgcolor='#F0FFFF'>";
+echo "<tr>";   /* Primera fila (encabezado) de la tabla html */
+echo "<th>Alumno</th>";
+echo "<th>Materia</th>";
+echo "<th>Calificación</th>";
+echo "</tr>";
+
+echo "</tr>"; /* Segunda fila de la tabla en la que irán los desplegables */ 
+echo "<td>";
 
 /* Presentamos primero un desplegable con los nombres */
 /* de todos los alumnos que están en la base de datos */
@@ -39,9 +48,11 @@ while($fila = mysql_fetch_array($result, MYSQL_ASSOC)) {
    echo $option;
 }
 
-echo "</select><br/>";
+echo "</select>";
+echo "</td>";
 
-echo "Materia : ";
+echo "<td>";
+
 /* Presentamos otro desplegable para las asignaturas */
 echo "<select name='materia'>";
 echo "<option value=''>Seleccionar materia<option>";
@@ -64,19 +75,28 @@ foreach($asignaturas as $value) {
    echo "<option value='".$value."'>".$asignatura."</option>";
 }
 echo "</select>";
+echo "</td>";
 
-echo "Calificación :";
+echo "<td align='center'>";
+
 /* Presentamos otro desplegable para las notas (de 1 a 10); */
 echo "<select name='nota'>";
 echo "<option value=''>--</option>";
 for($i=1; $i<11; $i++) {
    echo "<option value='".$i."'>".$i."</option>";
 }
-echo "</select><br/><br/>";
+echo "</select>";
+echo "</td>";
+echo "</tr>";
 
+echo "<tr>";
+echo "<td colspan='3' align='center' style='height:40; background-color:#FFF'>";
 /* Dos opciones: mandar notas o generar pdf */
 echo "<input type='submit' name='solicitud' value='Guardar Calificación'/>";
 echo "<input type='submit' name='solicitud' value='Generar PDF'/>";
+echo "</td>";
+echo "</tr>";
+echo "</table>";
 echo "</form>";
 echo "</p>";
 echo "</body>";
